@@ -485,12 +485,17 @@ namespace Aga.Controls.Tree
             }
         }
 
-		private int _rowHeight = 16;
+		private int _rowHeightDefaultValue = 16;
+		private int _rowHeight = 0;
 		[DefaultValue(16), Category("Appearance")]
 		public int RowHeight
 		{
 			get
 			{
+				if (_rowHeight == 0)
+				{
+					_rowHeight = (int)WinFormsHelpers.ScalePixelsToNewDpi(96, DeviceDpi, _rowHeightDefaultValue);
+				}
 				return _rowHeight;
 			}
 			set

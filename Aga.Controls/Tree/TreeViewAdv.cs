@@ -220,7 +220,9 @@ namespace Aga.Controls.Tree
 				| ControlStyles.Selectable
 				, true);
 
-			_headerLayout = new FixedHeaderHeightLayout(this, Application.RenderWithVisualStyles ? 20: 17);
+			int defaultHeaderHeight = Application.RenderWithVisualStyles ? 20 : 17;
+			defaultHeaderHeight = (int)WinFormsHelpers.ScalePixelsToNewDpi(96, DeviceDpi, defaultHeaderHeight);
+			_headerLayout = new FixedHeaderHeightLayout(this, defaultHeaderHeight);
 
 			//BorderStyle = BorderStyle.Fixed3D;
 			_hScrollBar.Height = SystemInformation.HorizontalScrollBarHeight;
@@ -235,6 +237,7 @@ namespace Aga.Controls.Tree
 			_measureContext = new DrawContext();
 			_measureContext.Font = Font;
 			_measureContext.Graphics = Graphics.FromImage(new Bitmap(1, 1));
+			_measureContext.DeviceDpi = DeviceDpi;
 
 			Input = new NormalInputState(this);
 			_search = new IncrementalSearch(this);
@@ -275,6 +278,7 @@ namespace Aga.Controls.Tree
 
 				DrawContext context = new DrawContext();
 				context.Graphics = gr;
+				context.DeviceDpi = DeviceDpi;
 				lock (_expandingNodes)
 				{
 					for (int i = 0; i < _expandingNodes.Count; i++)

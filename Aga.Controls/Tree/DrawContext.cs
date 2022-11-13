@@ -56,5 +56,12 @@ namespace Aga.Controls.Tree
 			get { return _enabled; }
 			set { _enabled = value; }
 		}
+
+		private int _deviceDpi;
+		public int DeviceDpi
+		{
+			get { return _deviceDpi; }
+			set { _deviceDpi = value; }
+		}
 	}
 }

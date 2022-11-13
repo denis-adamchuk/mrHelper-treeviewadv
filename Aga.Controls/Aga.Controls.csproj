@@ -213,6 +213,7 @@
       <DependentUpon>TreeViewAdv.cs</DependentUpon>
     </Compile>
     <Compile Include="Tree\TreeViewRowDrawEventArgs.cs" />
+    <Compile Include="WinFormsHelpers.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>

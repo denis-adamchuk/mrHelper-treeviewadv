@@ -126,6 +126,7 @@ namespace Aga.Controls.Tree.NodeControls
 			{
 				DrawContext context = new DrawContext();
 				context.Bounds = args.ControlBounds;
+				context.DeviceDpi = args.Control?.Parent?.DeviceDpi ?? 96;
 				Rectangle rect = GetBounds(args.Node, context);
 				if (rect.Contains(args.ViewLocation))
 				{

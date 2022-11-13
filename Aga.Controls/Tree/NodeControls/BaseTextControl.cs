@@ -161,6 +161,7 @@ namespace Aga.Controls.Tree.NodeControls
 			string label = GetLabel(node);
 			DrawContext context = new DrawContext();
 			context.Font = control.Font;
+			context.DeviceDpi = control.DeviceDpi;
 			control.Font = GetDrawingFont(node, context, label);
 		}
 

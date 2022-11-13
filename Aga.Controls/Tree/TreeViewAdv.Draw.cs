@@ -17,6 +17,7 @@ namespace Aga.Controls.Tree
 			DrawContext context = new DrawContext();
 			context.Graphics = Graphics.FromImage(new Bitmap(1, 1));
 			context.Font = this.Font;
+			context.DeviceDpi = DeviceDpi;
 			int res = 0;
 			for (int row = 0; row < RowCount; row++)
 			{
@@ -74,6 +75,7 @@ namespace Aga.Controls.Tree
 			context.Graphics = e.Graphics;
 			context.Font = this.Font;
 			context.Enabled = Enabled;
+			context.DeviceDpi = DeviceDpi;
 
 			int y = 0;
 			int gridHeight = 0;
@@ -260,12 +262,14 @@ namespace Aga.Controls.Tree
 			if (UseColumns && Columns.Count > 0)
 				gr.SetClip(new Rectangle(0, rowRect.Y, Columns[0].Width, rowRect.Bottom));
 
+			int nodePlusMinusImageSize = NodePlusMinus.GetImageSize(DeviceDpi);
+			int nodePlusMinusWidth = NodePlusMinus.GetWidth(DeviceDpi);
 			TreeNodeAdv curNode = node;
 			while (curNode != _root && curNode != null)
 			{
 				int level = curNode.Level;
-				int x = (level - 1) * _indent + NodePlusMinus.ImageSize / 2 + LeftMargin;
-				int width = NodePlusMinus.Width - NodePlusMinus.ImageSize / 2;
+				int x = (level - 1) * _indent + nodePlusMinusImageSize / 2 + LeftMargin;
+				int width = nodePlusMinusWidth - nodePlusMinusImageSize / 2;
 				int y = rowRect.Y;
 				int y2 = y + rowRect.Height;
 

@@ -10,7 +10,10 @@ namespace Aga.Controls.Tree.NodeControls
 {
 	public class NodeTextBox : BaseTextControl
 	{
-		private const int MinTextBoxWidth = 30;
+		private const int MinTextBoxWidthDefault = 30;
+
+		private int getMinTextBoxWidth(int dpi) =>
+			(int)WinFormsHelpers.ScalePixelsToNewDpi(96, dpi, MinTextBoxWidthDefault);
 
 		public NodeTextBox()
 		{
@@ -23,7 +26,8 @@ namespace Aga.Controls.Tree.NodeControls
 			else
 			{
 				Size size = GetLabelSize(context.CurrentNode, context.DrawContext, _label);
-				int width = Math.Max(size.Width + Font.Height, MinTextBoxWidth); // reserve a place for new typed character
+				// reserve a place for new typed character
+				int width = Math.Max(size.Width + Font.Height, getMinTextBoxWidth(context.DrawContext.DeviceDpi));
 				return new Size(width, size.Height);
 			}
 		}

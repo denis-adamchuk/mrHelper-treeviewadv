@@ -10,10 +10,16 @@ namespace Aga.Controls.Tree.NodeControls
 {
 	internal class NodePlusMinus : NodeControl
 	{
-		public const int ImageSize = 9;
-		public const int Width = 16;
+		public const int ImageSizeDefault = 9;
+		public const int WidthDefault = 16;
 		private Bitmap _plus;
 		private Bitmap _minus;
+
+		public static int GetImageSize(int dpi) =>
+			(int)WinFormsHelpers.ScalePixelsToNewDpi(96, dpi, ImageSizeDefault);
+
+		public static int GetWidth(int dpi) =>
+			(int)WinFormsHelpers.ScalePixelsToNewDpi(96, dpi, WidthDefault);
 
 		private VisualStyleRenderer _openedRenderer;
 		private VisualStyleRenderer OpenedRenderer
@@ -46,15 +52,17 @@ namespace Aga.Controls.Tree.NodeControls
 
 		public override Size MeasureSize(TreeNodeAdv node, DrawContext context)
 		{
-			return new Size(Width, Width);
+			int width = GetWidth(context.DeviceDpi);
+			return new Size(width, width);
 		}
 
 		public override void Draw(TreeNodeAdv node, DrawContext context)
 		{
+			int imageSize = GetImageSize(context.DeviceDpi);
 			if (node.CanExpand)
 			{
 				Rectangle r = context.Bounds;
-				int dy = (int)Math.Round((float)(r.Height - ImageSize) / 2);
+				int dy = (int)Math.Round((float)(r.Height - imageSize) / 2);
 				if (Application.RenderWithVisualStyles)
 				{
 					VisualStyleRenderer renderer;
@@ -62,7 +70,7 @@ namespace Aga.Controls.Tree.NodeControls
 						renderer = OpenedRenderer;
 					else
 						renderer = ClosedRenderer;
-					renderer.DrawBackground(context.Graphics, new Rectangle(r.X, r.Y + dy, ImageSize, ImageSize));
+					renderer.DrawBackground(context.Graphics, new Rectangle(r.X, r.Y + dy, imageSize, imageSize));
 				}
 				else
 				{

@@ -491,6 +491,7 @@ namespace Aga.Controls.Tree
 					context.Graphics = gr;
 					context.Font = Font;
 					context.Enabled = true;
+					context.DeviceDpi = DeviceDpi;
 					int y = 0;
 					int maxWidth = 0;
 					foreach (TreeNodeAdv node in nodes)

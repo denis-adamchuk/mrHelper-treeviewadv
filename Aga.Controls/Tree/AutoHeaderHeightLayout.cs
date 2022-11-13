@@ -16,6 +16,7 @@ namespace Aga.Controls.Tree
 			_treeView = treeView;
 			PreferredHeaderHeight = headerHeight;
 			_measureContext = new DrawContext();
+			_measureContext.DeviceDpi = treeView.DeviceDpi;
 			_measureContext.Graphics = Graphics.FromImage(new Bitmap(1, 1));
 		}
 
