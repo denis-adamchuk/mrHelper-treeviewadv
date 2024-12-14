@@ -36,6 +36,7 @@ namespace Aga.Controls.Tree
 		private bool _fireSelectionEvent;
 		private NodePlusMinus _plusMinus;
 		private ToolTip _toolTip;
+		private ToolTip _originalToolTip;
 		private DrawContext _measureContext;
 		private TreeColumn _hotColumn;
 		private IncrementalSearch _search;
@@ -233,6 +234,7 @@ namespace Aga.Controls.Tree
 			_readonlySelection = new ReadOnlyCollection<TreeNodeAdv>(_selection);
 			_columns = new TreeColumnCollection(this);
 			_toolTip = new ToolTip();
+			_originalToolTip = _toolTip;
 
 			_measureContext = new DrawContext();
 			_measureContext.Font = Font;
@@ -251,6 +253,16 @@ namespace Aga.Controls.Tree
 
 			Font = _font;
 			ExpandingIcon.IconChanged += ExpandingIconChanged;
+		}
+
+		public void SetToolTip(ToolTip tooltip)
+		{
+			if (_originalToolTip != null)
+			{
+				_originalToolTip.Dispose();
+				_originalToolTip = null;
+			}
+			_toolTip = tooltip;
 		}
 
 		void ExpandingIconChanged(object sender, EventArgs e)

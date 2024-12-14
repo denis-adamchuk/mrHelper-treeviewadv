@@ -43,4 +43,32 @@ namespace Aga.Controls.Tree
 		}
 	}
 
+	public class TreeViewGridLineDrawEventArgs : EventArgs
+	{
+		private	bool		handled		= false;
+		private	Graphics	graphics	= null;
+		private RectangleF rowRect;
+
+      public TreeViewGridLineDrawEventArgs(Graphics graphics, RectangleF rowRect)
+      {
+         this.graphics = graphics;
+         this.rowRect = rowRect;
+      }
+
+      public bool Handled
+		{
+			get { return this.handled; }
+			set { this.handled = value; }
+		}
+
+		public Graphics Graphics
+		{
+			get { return this.graphics; }
+		}
+
+		public RectangleF Rect
+		{
+			get { return rowRect; }
+		}
+	}
 }

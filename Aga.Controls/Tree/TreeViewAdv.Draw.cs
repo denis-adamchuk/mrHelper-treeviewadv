@@ -120,6 +120,15 @@ namespace Aga.Controls.Tree
 			EndPerformanceCount(e);
 		}
 
+		protected bool OnDrawGridLine(Graphics gr, RectangleF bounds)
+		{
+         TreeViewGridLineDrawEventArgs args = new TreeViewGridLineDrawEventArgs(gr, bounds);
+         if (DrawGridLine != null) DrawGridLine(this, args);
+			return args.Handled;
+      }
+
+      public event EventHandler<TreeViewGridLineDrawEventArgs> DrawGridLine;
+
 		private void DrawRow(PaintEventArgs e, ref DrawContext context, int row, Rectangle rowRect)
 		{
 			TreeNodeAdv node = RowMap[row];
@@ -162,12 +171,19 @@ namespace Aga.Controls.Tree
 			}
 
 			if ((GridLineStyle & GridLineStyle.Horizontal) == GridLineStyle.Horizontal)
-				e.Graphics.DrawLine(SystemPens.InactiveBorder, 0, rowRect.Bottom, e.Graphics.ClipBounds.Right, rowRect.Bottom);
+            DrawHorizontalGridLine(e.Graphics, rowRect.Bottom);
 
 			if (ShowLines)
 				DrawLines(e.Graphics, node, rowRect);
 
 			DrawNode(node, context);
+		}
+
+		private void DrawHorizontalGridLine(Graphics gr, int y)
+		{
+         RectangleF r = new RectangleF(0, y, gr.ClipBounds.Right, y);
+         if (!OnDrawGridLine(gr, r))
+            gr.DrawLine(SystemPens.InactiveBorder, r.Left, r.Top, r.Right, r.Bottom);
 		}
 
 		private void DrawVerticalGridLines(Graphics gr, int y)
@@ -178,7 +194,9 @@ namespace Aga.Controls.Tree
 				if (c.IsVisible)
 				{
 					x += c.Width;
-					gr.DrawLine(SystemPens.InactiveBorder, x - 1, y, x - 1, gr.ClipBounds.Bottom);
+               RectangleF r = new RectangleF(x - 1, y, x - 1, gr.ClipBounds.Bottom);
+               if (!OnDrawGridLine(gr, r))
+                  gr.DrawLine(SystemPens.InactiveBorder, r.Left, r.Top, r.Right, r.Bottom);
 				}
 			}
 		}

@@ -334,10 +334,9 @@ namespace Aga.Controls.Tree
                 DrawSortMark(gr, bounds, x);
 			}
 
-			if (textSize.Width < maxTextSize.Width)
-				TextRenderer.DrawText(gr, Header, font, innerBounds, SystemColors.ControlText, _baseHeaderFlags | TextFormatFlags.Left);
-            else
-				TextRenderer.DrawText(gr, Header, font, innerBounds, SystemColors.ControlText, _headerFlags);
+			TextFormatFlags flags = textSize.Width < maxTextSize.Width ? (_baseHeaderFlags | TextFormatFlags.Left) : _headerFlags;
+			if (!OnDrawColHeaderText(gr, innerBounds, Header, flags))
+				TextRenderer.DrawText(gr, Header, font, innerBounds, SystemColors.ControlText, flags);
         }
 		private void DrawSortMark(Graphics gr, Rectangle bounds, int x)
 		{
@@ -428,10 +427,19 @@ namespace Aga.Controls.Tree
 		public event EventHandler<DrawColHeaderBgEventArgs> DrawColHeaderBg;
 		private bool OnDrawColHeaderBg(Graphics gr, Rectangle bounds, bool pressed, bool hot)
 		{
-			DrawColHeaderBgEventArgs colBgArgs = new DrawColHeaderBgEventArgs(gr, bounds, pressed, hot);
-			if (this.DrawColHeaderBg != null) this.DrawColHeaderBg(this, colBgArgs);
-			return colBgArgs.Handled;
+			DrawColHeaderBgEventArgs args = new DrawColHeaderBgEventArgs(gr, bounds, pressed, hot);
+			if (DrawColHeaderBg != null) DrawColHeaderBg(this, args);
+			return args.Handled;
 		}
+
+      public event EventHandler<DrawColHeaderTextEventArgs> DrawColHeaderText;
+		private bool OnDrawColHeaderText(Graphics gr, Rectangle bounds, string header, TextFormatFlags flags)
+		{
+			DrawColHeaderTextEventArgs args = new DrawColHeaderTextEventArgs(gr, bounds, header, flags);
+			if (DrawColHeaderText != null) DrawColHeaderText(this, args);
+			return args.Handled;
+		}
+
 
 		#endregion
 	}
